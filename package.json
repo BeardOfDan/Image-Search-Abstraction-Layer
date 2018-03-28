@@ -1,0 +1,28 @@
+{
+  "name": "image-search-abstraction-layer",
+  "version": "1.0.0",
+  "description": "This API searches for images and returns a json with URLs, alt text, and page urls for the images",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BeardOfDan/Image-Search-Abstraction-Layer.git"
+  },
+  "author": "Dan Roberts",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BeardOfDan/Image-Search-Abstraction-Layer/issues"
+  },
+  "homepage": "https://github.com/BeardOfDan/Image-Search-Abstraction-Layer#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "google-images": "^2.1.0",
+    "mongoose": "^5.0.12"
+  },
+  "devDependencies": {
+    "dotenv": "^5.0.1",
+    "nodemon": "^1.17.2"
+  }
+}
