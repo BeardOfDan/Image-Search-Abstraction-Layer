@@ -18,12 +18,24 @@ app.get('/', (req, res, next) => {
   res.send('Image Search Abstraction Layer');
 });
 
-app.get('/imagesearch/:searchTerm:offset', (req, res, next) => {
+app.get('/imagesearch/:searchTerm', (req, res, next) => {
+  const searchTerm = req.params.searchTerm;
+  const offset = ~~(req.query.offset || 0);
 
+  res.json({
+    searchTerm,
+    offset
+  });
+  // URLs, alt text, and page urls
 });
 
 app.get('/latest/imagesearch/', (req, res, next) => {
 
+
+  res.json({
+    'term': 'term',
+    'when': 'when'
+  });
 });
 
 app.listen(PORT, () => {
