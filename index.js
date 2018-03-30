@@ -54,6 +54,10 @@ app.get('/imagesearch/:searchTerm', async (req, res, next) => {
         return { 'error': e };
       });
 
+    if (images.error) {
+      return res.json(images);
+    }
+
     const result = images.map((image) => {
       return {
         'url': image.url,
