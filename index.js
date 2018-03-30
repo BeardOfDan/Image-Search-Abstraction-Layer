@@ -121,13 +121,15 @@ app.get('/imagesearch/:searchTerm', async (req, res, next) => {
   }
 });
 
-app.get('/latest/imagesearch/', (req, res, next) => {
+app.get('/latest/imagesearch/', async (req, res, next) => {
+  const result = (await Searches.find({})
+    .limit(10)
+    .sort({ 'when': -1 }))
+    .map(({ term, when }) => {
+      return { term, when };
+    });
 
-
-  res.json({
-    'term': 'term',
-    'when': 'when'
-  });
+  res.json(result);
 });
 
 app.listen(PORT, () => {
