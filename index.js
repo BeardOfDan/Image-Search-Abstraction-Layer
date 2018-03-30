@@ -18,6 +18,10 @@ app.get('/', (req, res, next) => {
   res.send('Image Search Abstraction Layer');
 });
 
+// Yeah, I totally violate the principles of DRY in this route handler
+// If you actually are reading this code... then quite fankly I am surprised!
+// I mean, this is a minor project that I probably wrote a long time ago
+// Whatever your deal future person, who's possibly me, I was lazy with this one, I admit it
 app.get('/imagesearch/:searchTerm', async (req, res, next) => {
   const searchTerm = req.params.searchTerm;
   const offset = ~~(req.query.offset || 0);
@@ -42,11 +46,51 @@ app.get('/imagesearch/:searchTerm', async (req, res, next) => {
   }
 
   if (multiplePages) {
+    const result = [];
 
-    return res.json({
-      searchTerm,
-      offset
+    let images = await client.search(searchTerm, { 'page': pages[0] }).catch((e) => {
+      console.log('e: ' + e);
+      return { 'error': e };
     });
+
+    if (images.error) {
+      return res.json(images);
+    }
+
+    const start = 10 % offset;
+    const end = 10 - start;
+
+    for (let i = start; i < end; i++) {
+      const image = images[i];
+      result.push({
+        'url': image.url,
+        'snippet': image.description,
+        'thumbnail': image.thumbnail.url,
+        'context': image.parentPage
+      });
+    }
+
+    images = await client.search(searchTerm, { 'page': pages[1] }).catch((e) => {
+      console.log('e: ' + e);
+      return { 'error': e };
+    });
+
+    if (images.error) {
+      return res.json(images);
+    }
+
+    for (let i = 0; i < start; i++) {
+      const image = images[i];
+      result.push({
+        'url': image.url,
+        'snippet': image.description,
+        'thumbnail': image.thumbnail.url,
+        'context': image.parentPage
+      });
+    }
+
+    return res.json(result);
+
   } else {
     const images = await client.search(searchTerm, { 'page': pages[0] })
       .catch((e) => {
