@@ -32,6 +32,12 @@ app.get('/imagesearch/:searchTerm', async (req, res, next) => {
     });
   }
 
+  // Log the searches
+  (new Searches({
+    'term': searchTerm,
+    'when': Date.now()
+  })).save();
+
   // since the api searches by pages of 10,
   // and offsets can be done in increments of 1,
   // it is possible to need to do 2 image searches
