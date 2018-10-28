@@ -36,7 +36,7 @@ app.get('/imagesearch/:searchTerm', async (req, res, next) => {
 
   const images = await client.search(searchTerm, { 'page': offset })
     .catch((e) => {
-      console.log('e: ' + e);
+      console.log(`e: ${e}`);
       return { 'error': e };
     });
 
@@ -68,5 +68,5 @@ app.get('/latest/imagesearch/', async (req, res, next) => {
 });
 
 app.listen(PORT, () => {
-  console.log('Now listening on port ' + PORT);
+  console.log(`Now listening on port ${PORT}`);
 });
